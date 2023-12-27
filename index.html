@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./css/style.css">
+		<title>Contact book</title>
+	</head>
+	<body>
+		<div class="cotact">
+			<div class="contact__container">
+				<div class="contact-top top-contact">
+					<div class="top-contact__image"></div>
+					<div class="top-contact__text">
+						<div class="top-contact__name">Rishka</div>
+						<div class="top-contact__email">risatosmonov@gmail.com</div>
+						<div class="top-contact__phone-number">+996 709-108-080</div>
+						<button type="button" class="top-contact__button">Add contact</button>
+					</div>
+				</div>
+				<div class="contact-bottom bottom-contact">
+					<ul class="bottom-contact__list"></ul>
+				</div>
+			</div>
+			<form class="add">
+				<img src="./img/close.png" alt="close" id="close-image">
+				<div class="add__container">
+					<input type="text" id="name" placeholder="Имя">
+					<p id="errorName"></p>
+					<input type="text" id="surname" placeholder="Фамилия">
+					<p id="errorSurname"></p>
+					<input type="number" id="phoneNumber" placeholder="Номер телефона">
+					<p id="errorNum"></p>
+					<div class="add__file">
+						<input type="file" accept=".jpg, .png" id="photo">
+						<button type="button" class="add__button">Выбрать фотографию</button>
+					</div>
+				</div>
+				<button type="submit" id="addButton">Add contact</button>
+			</form>
+			<form class="add update">
+				<img src="./img/close.png" alt="close" id="close-update">
+				<div class="add__container">
+					<input type="text" id="updateName" placeholder="Имя">
+					<input type="text" id="updateSurname" placeholder="Фамилия">
+					<input type="number" id="updatePhoneNumber" placeholder="Номер телефона">
+					<div class="add__file">
+						<input type="file" accept=".jpg, .png" id="updatePhoto">
+						<button type="button" class="add__button">Выбрать фотографию</button>
+					</div>
+				</div>
+				<button type="submit" id="updateButton">Update contact</button>
+			</form>
+		</div>
+		<script src="./js/script.js"></script>
+	</body>
+</html>
