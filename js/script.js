@@ -101,83 +101,8 @@ function postElements(obj) {
 			"Content-Type": "application/json; charset=utf-8",
 		},
 		body: JSON.stringify(obj),
-	}).then(() => showContacts());
+	}).then(() => showUpdateContacts());
 };
-
-function showContacts() {
-	fetch(API)
-		.then((res) => {
-			return res.json();
-		})
-		.then((data) => {
-			contactList.innerText = "";
-			data.forEach((elem) => {
-				contactList.innerHTML += `
-			<li class="bottom-contact__item" data-id="${elem.id}">
-			<div class="bottom-contact__image-ibg">
-			<img src="${elem.inputPhoto}">
-						</div>
-						<div class="bottom-contact__info">
-							<div class="bottom-contact__body">
-							<div class="bottom-contact__names">
-									<div class="bottom-contact__name">${elem.inputName} &nbsp;</div>
-									<div class="bottom-contact__name">${elem.inputSurname}</div>
-								</div>
-								<a href="tel:${elem.inputPhone}" class="bottom-contact__phone">${elem.inputPhone}</a>
-							</div>
-							<button type="button" class="bottom-contact__delet">
-							<img src="./img/cart.svg">
-							</button>
-							<button type="button" class="bottom-contact__redact">
-								<img src="./img/redact.svg">
-								</button>
-								</div>
-								</li>
-								`;
-			});
-			const items = document.querySelectorAll('.bottom-contact__item');
-			items.forEach(item => {
-				const deleteButton = item.querySelector('.bottom-contact__delet');
-				deleteButton.addEventListener("click", function (e) {
-					const listItem = e.target.closest('.bottom-contact__item');
-					const idToDelete = listItem.dataset.id;
-					fetch(`${API}/${idToDelete}`, {
-						method: 'DELETE',
-					})
-						.then(response => response.json())
-						.then(() => {
-							showContacts();
-						})
-				});
-				const redactButton = item.querySelector('.bottom-contact__redact');
-				redactButton.addEventListener("click", function (e) {
-					updateForm.style = "display: block";
-					const listRedactItem = e.target.closest('.bottom-contact__item');
-					const idToRedact = listRedactItem.dataset.id;
-					updateForm.addEventListener("submit", function (e) {
-						const reader = new FileReader();
-						reader.onload = function (event) {
-							let updateObject = {
-								inputName: inputName.value,
-								inputSurname: inputSurname.value,
-								inputPhone: inputPhone.value,
-								inputPhoto: event.target.result,
-							};
-							updateContact(updateObject, idToRedact);
-							inputName.value = '';
-							inputSurname.value = '';
-							inputPhone.value = '';
-							inputPhoto.value = '';
-						};
-						reader.readAsDataURL(updatePhoto.files[0]);
-						updateForm.style = "display: none";
-						e.preventDefault();
-					});
-				});
-			});
-		});
-};
-showContacts();
 
 function showUpdateContacts() {
 	fetch(API)
@@ -221,7 +146,7 @@ function showUpdateContacts() {
 					})
 						.then(response => response.json())
 						.then(() => {
-							showContacts();
+							showUpdateContacts();
 						})
 				});
 				const redactButton = item.querySelector('.bottom-contact__redact');
@@ -239,19 +164,10 @@ function showUpdateContacts() {
 								inputPhoto: event.target.result,
 							};
 							updateContact(updateObject, idToRedact);
-							updateName.value = '';
-							updateSurname.value = '';
-							updatePhone.value = '';
-							updatePhoto.value = '';
 						};
 						reader.readAsDataURL(updatePhoto.files[0]);
-						updateForm.style = "display: none";
 						e.preventDefault();
 					});
-				});
-				const closeUpdate = document.querySelector('#close-update');
-				closeUpdate.addEventListener("click", function (e) {
-					updateForm.style = "display: none";
 				});
 			});
 		});
@@ -265,5 +181,15 @@ function updateContact(formData, idUpdateObj) {
 			"Content-Type": "application/json; charset=utf-8",
 		},
 		body: JSON.stringify(formData),
-	}).then(() => showContacts());
+	}).then(() => {
+		showUpdateContacts()
+		const closeUpdate = document.querySelector('#close-update');
+		closeUpdate.addEventListener("click", function (e) {
+			updateForm.style = "display: none";
+		});
+		updateName.value = '';
+		updateSurname.value = '';
+		updatePhone.value = '';
+		updatePhoto.value = '';
+	})
 }
